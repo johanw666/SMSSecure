@@ -140,7 +140,7 @@ android {
 
     defaultConfig {
         versionCode 142
-        versionName "0.15.13.2-JW"
+        versionName "0.15.13.3-JW"
 
         minSdkVersion 9
         targetSdkVersion 22
