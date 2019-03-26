@@ -62,6 +62,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.TimeUnit;
 
+import me.leolin.shortcutbadger.ShortcutBadger; // JW
+
 /**
  * Handles posting system notifications for new messages.
  *
@@ -490,6 +492,15 @@ public class MessageNotifier {
 
   private static void updateBadge(Context context, int count) {
     BadgeWidgetProvider.getInstance(context, (Class) ConversationListActivity.class).updateBadge(count);
+    // JW: re-implement badges on icon
+    try {
+      if (count == 0) ShortcutBadger.removeCount(context);
+      else            ShortcutBadger.applyCount(context, count);
+    } catch (Throwable t) {
+      // NOTE :: I don't totally trust this thing, so I'm catching
+      // everything.
+      Log.w("MessageNotifier", t);
+    }
   }
 
 }

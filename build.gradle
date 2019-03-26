@@ -17,6 +17,9 @@ repositories {
     maven {
         url "https://repo1.maven.org/maven2/"
     }
+    maven {
+        url "https://raw.github.com/whispersystems/maven/master/shortcutbadger/releases/"
+    }
     jcenter()
     mavenLocal()
 }
@@ -28,6 +31,7 @@ subprojects {
 }
 
 dependencies {
+    compile "me.leolin:ShortcutBadger:1.1.16"
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     compile 'com.jpardogo.materialtabstrip:library:1.0.9'
     compile project (':org.w3c.dom')
@@ -130,6 +134,7 @@ dependencyVerification {
             'org.apache.httpcomponents:httpclient-android:6f56466a9bd0d42934b90bfbfe9977a8b654c058bf44a12bdc2877c4e1f033f1',
             'se.emilsjolander:stickylistheaders:a08ca948aa6b220f09d82f16bbbac395f6b78897e9eeac6a9f0b0ba755928eeb',
             'com.davemorrissey.labs:subsampling-scale-image-view:550c5baa07e0bb4ff0a18b705e96d34436d22619248bd8c08c08c730b1f55cfe',
+            'me.leolin:ShortcutBadger:e3cb3e7625892129b0c92dd5e4bc649faffdd526d5af26d9c45ee31ff8851774',
     ]
 }
 
@@ -140,7 +145,7 @@ android {
 
     defaultConfig {
         versionCode 142
-        versionName "0.15.13.3-JW"
+        versionName "0.15.13.4-JW"
 
         minSdkVersion 9
         targetSdkVersion 22
