@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
@@ -35,6 +36,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.smssecure.smssecure.components.AnimatingToggle;
 import org.smssecure.smssecure.crypto.InvalidPassphraseException;
 import org.smssecure.smssecure.crypto.MasterSecretUtil;
 import org.smssecure.smssecure.util.DynamicIntroTheme;
@@ -51,7 +53,10 @@ public class PassphrasePromptActivity extends PassphraseActivity {
   private DynamicIntroTheme dynamicTheme    = new DynamicIntroTheme();
   private DynamicLanguage   dynamicLanguage = new DynamicLanguage();
 
-  private EditText passphraseText;
+  private EditText        passphraseText;
+  private ImageButton     showButton; // JW: added
+  private ImageButton     hideButton; // JW: added
+  private AnimatingToggle visibilityToggle; // JW: added
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -115,18 +120,37 @@ public class PassphrasePromptActivity extends PassphraseActivity {
     }
   }
 
+  // // JW: added
+  private void setPassphraseVisibility(boolean visibility) {
+    int cursorPosition = passphraseText.getSelectionStart();
+    if (visibility) {
+      passphraseText.setInputType(InputType.TYPE_CLASS_TEXT |
+                                  InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+    } else {
+      passphraseText.setInputType(InputType.TYPE_CLASS_TEXT |
+                                  InputType.TYPE_TEXT_VARIATION_PASSWORD);
+    }
+    passphraseText.setSelection(cursorPosition);
+  }
+
   private void initializeResources() {
     getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     getSupportActionBar().setCustomView(R.layout.centered_app_title);
 
     ImageButton okButton = (ImageButton) findViewById(R.id.ok_button);
-    passphraseText       = (EditText)    findViewById(R.id.passphrase_edit);
+
+    showButton       = (ImageButton)     findViewById(R.id.passphrase_visibility); // JW: added
+    hideButton       = (ImageButton)     findViewById(R.id.passphrase_visibility_off); // JW: added
+    visibilityToggle = (AnimatingToggle) findViewById(R.id.button_toggle); // JW: added
+    passphraseText   = (EditText)        findViewById(R.id.passphrase_edit);
     SpannableString hint = new SpannableString("  " + getString(R.string.PassphrasePromptActivity_enter_passphrase));
     hint.setSpan(new RelativeSizeSpan(0.9f), 0, hint.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
     hint.setSpan(new TypefaceSpan("sans-serif"), 0, hint.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
     passphraseText.setHint(hint);
     okButton.setOnClickListener(new OkButtonClickListener());
+    showButton.setOnClickListener(new ShowButtonOnClickListener()); // JW: added
+    hideButton.setOnClickListener(new HideButtonOnClickListener()); // JW: added
     passphraseText.setOnEditorActionListener(new PassphraseActionListener());
     passphraseText.setImeActionLabel(getString(R.string.prompt_passphrase_activity__unlock),
                                      EditorInfo.IME_ACTION_DONE);
@@ -155,6 +179,24 @@ public class PassphrasePromptActivity extends PassphraseActivity {
     @Override
     public void onClick(View v) {
       handlePassphrase();
+    }
+  }
+
+  // JW: added
+  private class ShowButtonOnClickListener implements OnClickListener {
+    @Override
+    public void onClick(View v) {
+      visibilityToggle.display(hideButton);
+      setPassphraseVisibility(true);
+    }
+  }
+
+  // JW: added
+  private class HideButtonOnClickListener implements OnClickListener {
+    @Override
+    public void onClick(View v) {
+      visibilityToggle.display(showButton);
+      setPassphraseVisibility(false);
     }
   }
 

@@ -48,6 +48,10 @@
         <item name="centered_app_title_color">#55000000</item>
         <item name="ic_arrow_forward">@drawable/ic_arrow_forward_light</item>
         <item name="lockscreen_watermark">@drawable/lockscreen_watermark_light</item>
+        <!-- JW: added 3 lines -->
+        <item name="android:windowBackground">@color/gray5</item>
+        <item name="ic_visibility">@drawable/ic_visibility_grey600_24dp</item>
+        <item name="ic_visibility_off">@drawable/ic_visibility_off_grey600_24dp</item>
     </style>
 
     <style name="Silence.DarkIntroTheme" parent="@style/Theme.AppCompat">
@@ -60,6 +64,9 @@
         <item name="ic_arrow_forward">@drawable/ic_arrow_forward_dark</item>
         <item name="lockscreen_watermark">@drawable/lockscreen_watermark_dark</item>
         <item name="android:windowBackground">@color/black</item>
+        <!-- JW: added 2 lines -->
+        <item name="ic_visibility">@drawable/ic_visibility_white_24dp</item>
+        <item name="ic_visibility_off">@drawable/ic_visibility_off_white_24dp</item>
     </style>
 
     <style name="PopupAnimation" parent="@android:style/Animation">

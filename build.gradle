@@ -20,6 +20,13 @@ repositories {
     maven {
         url "https://repo1.maven.org/maven2/"
     }
+    // JW: added
+    maven {
+        url "https://raw.github.com/signalapp/maven/master/shortcutbadger/releases/"
+        content {
+            includeGroupByRegex "me\\.leolin.*"
+        }
+    }
     google()
     jcenter()
     mavenLocal()
@@ -34,6 +41,7 @@ subprojects {
 dependencies {
     def supportVersion = '27.0.0'
 
+    implementation "me.leolin:ShortcutBadger:1.1.16" // JW: added
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:recyclerview-v7:$supportVersion"
     compile "com.android.support:design:$supportVersion"
@@ -124,12 +132,26 @@ android {
 
     defaultConfig {
         versionCode 145
-        versionName "0.15.16"
+        versionName "0.15.16.0-JW"
 
         minSdkVersion 14
         targetSdkVersion 26
 
         vectorDrawables.useSupportLibrary = true
+
+        /* JW: Add ABI splits */
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86'
+        }
+
+        splits {
+            abi {
+                enable true
+                reset()
+                include 'armeabi-v7a', 'x86'
+                universalApk true
+            }
+        }
     }
 
     compileOptions {
